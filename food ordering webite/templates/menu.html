@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Menu{% endblock %}
+{% block content %}
+<h2 class="mb-4">Menu</h2>
+<div class="row">
+  {% for item in menu %}
+  <div class="col-md-4 mb-3">
+    <div class="card h-100">
+      <img src="{{ item.img }}" class="card-img-top" alt="{{ item.name }}" style="height:200px;object-fit:cover;">
+      <div class="card-body">
+        <h5 class="card-title">{{ item.name }}</h5>
+        <div>${{ "%.2f"|format(item.price) }}</div>
+
+        <form method="post" class="d-flex mt-2">
+          <input type="hidden" name="item" value="{{item.name}}">
+          <input name="qty" value="1" min="1" type="number" class="form-control me-2" style="width:80px;">
+          <button type="submit" class="btn btn-success">Add to cart</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

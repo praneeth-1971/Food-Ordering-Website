@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form method="post">
+            <h2>Login</h2>
+            <div class="mb-3">
+                <label>Name</label>
+                <input class="form-control" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label>Mobile (include country code)</label>
+                <input class="form-control" name="mobile" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

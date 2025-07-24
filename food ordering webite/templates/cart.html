@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Cart{% endblock %}
+{% block content %}
+<h2 class="mb-4">Your Cart</h2>
+{% if cart_items %}
+<form method="post">
+  <table class="table align-middle">
+    <thead>
+      <tr>
+        <th>Item</th><th></th><th>Price</th><th>Quantity</th><th>Subtotal</th><th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart_items %}
+      <tr>
+        <td>
+          <img src="{{item.img}}" style="height:60px;width:60px;object-fit:cover">
+        </td>
+        <td>{{item.name}}</td>
+        <td>${{"%.2f"|format(item.price)}}</td>
+        <td>
+          <input name="qty_{{item.name}}" value="{{item.qty}}" type="number" min="0" class="form-control" style="width:70px;">
+        </td>
+        <td>${{"%.2f"|format(item.subtotal)}}</td>
+        <td>
+          <!-- Separate form for remove button to avoid nested forms -->
+          <form method="post" style="display:inline;">
+            <input type="hidden" name="remove" value="{{item.name}}">
+            <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="mb-3 text-end fw-bold fs-5">Total: ${{"%.2f"|format(total)}}</div>
+  <div class="d-flex justify-content-between">
+    <button type="submit" name="clear" class="btn btn-danger">Clear Cart</button>
+  </div>
+</form>
+
+<!-- Bottom fixed bar with Return to Menu + Place Order -->
+<form method="post" class="d-flex justify-content-between align-items-center"
+      style="position:fixed; bottom:0; left:0; width:100%; z-index:99; background-color:#fff; border-top:1px solid #ddd; padding:10px 20px;">
+  <a href="{{ url_for('menu') }}" class="btn btn-secondary btn-lg" style="min-width:40%;">Return to Menu</a>
+  <button type="submit" name="place_order" class="btn btn-success btn-lg" style="min-width:40%;">Place Order</button>
+</form>
+
+{% else %}
+<p>Your cart is empty.</p>
+{% endif %}
+{% endblock %}

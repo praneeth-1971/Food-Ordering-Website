@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Your Orders{% endblock %}
+{% block content %}
+<h2>Your Past Orders</h2>
+
+{% if not orders %}
+  <p class="alert alert-info">You haven't ordered anything yet.</p>
+{% else %}
+  {% for order in orders %}
+  <div class="card mb-4">
+    <div class="card-header">
+      <strong>Order placed at:</strong> {{ order.timestamp }}<br>
+      <strong>Table:</strong> {{ order.table }}<br>
+      <strong>Name:</strong> {{ order.name }} | <strong>Mobile:</strong> {{ order.mobile }}
+    </div>
+    <div class="card-body p-0">
+      <table class="table m-0 table-striped">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price ($)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in order.details %}
+          <tr>
+            <td>{{ i.item }}</td>
+            <td>{{ i.qty }}</td>
+            <td>${{ "%.2f"|format(i.price) }}</td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td colspan="2" class="text-end fw-bold">Total</td>
+            <td class="fw-bold">${{ order.total.replace('$', '') }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endfor %}
+{% endif %}
+{% endblock %}
